@@ -129,8 +129,3 @@ if data:
                 worksheet.delete_rows(selected_row_del)
             st.success("資料已成功刪除！")
             st.rerun()
-    # ==========================================
-    # 6. 刪除資料 (Delete)
-    # ==========================================
-    with col_delete:
-        st.header("4️⃣ 刪除資料")

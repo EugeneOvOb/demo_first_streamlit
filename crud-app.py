@@ -2,6 +2,7 @@ import streamlit as st
 import gspread
 import pandas as pd
 
+
 # ==========================================
 # 1. 建立 Google Sheets 連線
 # ==========================================
@@ -11,13 +12,14 @@ def init_connection():
     gc = gspread.service_account_from_dict(credentials)
     return gc
 
+
 gc = init_connection()
 
 # ==========================================
 # 2. 開啟指定的試算表與工作表
 # ==========================================
-SHEET_INPUT = "https://docs.google.com/spreadsheets/d/1Y2_ihmnsoOcioF0pPBuGc3F5ZIgJ_8TP1QSHCac18sA/edit?pli=1&gid=0#gid=0"
-WORKSHEET_NAME = "sheet bot"
+SHEET_INPUT = "試算表網址"
+WORKSHEET_NAME = "工作表1"
 
 try:
     if SHEET_INPUT.startswith("http://") or SHEET_INPUT.startswith("https://"):
@@ -27,12 +29,10 @@ try:
     worksheet = sh.worksheet(WORKSHEET_NAME)
 except Exception as e:
     st.error(
-        f"無法開啟試算表，請確認名稱/網址是否正確，且服務帳號 ({gc.auth.signer_email}) 已被加入共用編輯者！\n錯誤訊息：{e}"
-    )
+        f"無法開啟試算表，請確認名稱/網址是否正確，且服務帳號 ({gc.auth.signer_email}) 已被加入共用編輯者！\n錯誤訊息：{e}")
     st.stop()
 
 st.title("📊 Google Sheets 讀寫測試儀表板")
-
 # ==========================================
 # 3. 讀取資料 (Read)
 # ==========================================
@@ -76,6 +76,7 @@ st.divider()
 # 只有在有資料的時候，才顯示修改與刪除的區塊
 if data:
     # 建立一個選單選項的對應字典： "第 X 列: 姓名" -> 實際列數
+    # 這樣我們才能讓 gspread 知道要改哪一列
     row_options = {f"第 {i + 2} 列: {row['姓名']}": i + 2 for i, row in enumerate(data)}
 
     col_update, col_delete = st.columns(2)
@@ -121,7 +122,7 @@ if data:
 
         st.write(f"⚠️ 即將刪除：**{selected_option_del}**")
 
-        # 刪除按鈕
+        # 刪除按鈕 (加上 type="primary" 讓按鈕變顯眼)
         if st.button("🗑️ 確認刪除這筆資料", type="primary"):
             with st.spinner("正在刪除資料中..."):
                 worksheet.delete_rows(selected_row_del)

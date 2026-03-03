@@ -10,11 +10,11 @@ user_name = st.text_input("請輸入你的名字", "訪客")
 if user_name:
   st.success("哈囉, {user_name}！歡迎來到 Streamlit 的世界。")
   # 4. 數據視覺化：隨機產生數據並畫圖
-  st.subheader("簡單的數據展示")
-  chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=["A","B","C"]
-  )
+st.subheader("簡單的數據展示")
+chart_data = pd.DataFrame(
+  np.random.randn(20, 3),
+  columns=["A","B","C"]
+)
 # 直接繪製折線圖
 st.line_chart(chart_data)
 # 5. 側邊欄範例

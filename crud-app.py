@@ -2,16 +2,15 @@ import streamlit as st
 import gspread
 import pandas as pd
 
-
 # ==========================================
 # 1. 建立 Google Sheets 連線
 # ==========================================
 @st.cache_resource
 def init_connection():
+    # 確保 st.secrets["gcp_service_account"] 內含 service account 的 JSON 內容
     credentials = dict(st.secrets["gcp_service_account"])
     gc = gspread.service_account_from_dict(credentials)
     return gc
-
 
 gc = init_connection()
 
@@ -29,10 +28,12 @@ try:
     worksheet = sh.worksheet(WORKSHEET_NAME)
 except Exception as e:
     st.error(
-        f"無法開啟試算表，請確認名稱/網址是否正確，且服務帳號 ({gc.auth.signer_email}) 已被加入共用編輯者！\n錯誤訊息：{e}")
+        f"無法開啟試算表，請確認名稱/網址是否正確，且服務帳號 ({gc.auth.signer_email}) 已被加入共用編輯者！\n錯誤訊息：{e}"
+    )
     st.stop()
 
 st.title("📊 Google Sheets 讀寫測試儀表板")
+
 # ==========================================
 # 3. 讀取資料 (Read)
 # ==========================================
@@ -76,7 +77,6 @@ st.divider()
 # 只有在有資料的時候，才顯示修改與刪除的區塊
 if data:
     # 建立一個選單選項的對應字典： "第 X 列: 姓名" -> 實際列數
-    # 這樣我們才能讓 gspread 知道要改哪一列
     row_options = {f"第 {i + 2} 列: {row['姓名']}": i + 2 for i, row in enumerate(data)}
 
     col_update, col_delete = st.columns(2)

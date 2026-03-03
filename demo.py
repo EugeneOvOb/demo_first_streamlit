@@ -12,8 +12,8 @@ st.success(f&quot;哈囉, {user_name}！歡迎來到 Streamlit 的世界。&quot
 # 4. 數據視覺化：隨機產生數據並畫圖
 st.subheader(&#39;�� 簡單的數據展示&#39;)
 chart_data = pd.DataFrame(
-np.random.randn(20, 3),
-columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]
+  np.random.randn(20, 3),
+  columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]
 )
 # 直接繪製折線圖
 st.line_chart(chart_data)

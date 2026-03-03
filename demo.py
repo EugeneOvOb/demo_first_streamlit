@@ -19,6 +19,6 @@ chart_data = pd.DataFrame(
 st.line_chart(chart_data)
 # 5. 側邊欄範例
 with st.sidebar:
-st.header("側邊欄設定")
-st.write("這裡可以放參數設定或導覽列。")
-st.button("沒用的按鈕")
+  st.header("側邊欄設定")
+  st.write("這裡可以放參數設定或導覽列。")
+  st.button("沒用的按鈕")
